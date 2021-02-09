@@ -75,7 +75,7 @@ def waveform_to_examples(data, sample_rate, return_tensor=True):
         window_length=example_window_length,
         hop_length=example_hop_length)
 
-if log_mel_examples.shape[0] == 0:
+    if log_mel_examples.shape[0] == 0:
         log_mel_example = np.reshape(log_mel_examples,log_mel_examples.shape[-2:])
     if return_tensor:
         log_mel_examples = torch.tensor(

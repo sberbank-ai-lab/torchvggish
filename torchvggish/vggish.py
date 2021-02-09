@@ -18,8 +18,11 @@ class VGG(nn.Module):
             nn.Linear(4096, 128),
             nn.ReLU(True))
 
-    def forward(self, x):
-        x = self.features(x)
+    def forward(self, x, device):
+        if device == 'cpu':
+            x = self.features(x)
+        else:
+            x = self.features(x.cuda())
 
         # Transpose the output from features to
         # remain compatible with vggish embeddings
@@ -163,10 +166,10 @@ class VGGish(VGG):
 
                 self.pproc.load_state_dict(state_dict)
 
-    def forward(self, x, fs=None):
+    def forward(self, x, fs=None, device='cpu'):
         if self.preprocess:
             x = self._preprocess(x, fs)
-        x = VGG.forward(self, x)
+        x = VGG.forward(self, x, device)
         if self.postprocess:
             x = self._postprocess(x)
         return x
