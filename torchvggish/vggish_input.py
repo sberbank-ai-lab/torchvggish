@@ -74,6 +74,8 @@ def waveform_to_examples(data, sample_rate, return_tensor=True):
         window_length=example_window_length,
         hop_length=example_hop_length)
 
+if log_mel_examples.shape[0] == 0:
+        log_mel_example = np.reshape(log_mel_examples,log_mel_examples.shape[-2:])
     if return_tensor:
         log_mel_examples = torch.tensor(
             log_mel_examples, requires_grad=True)[:, None, :, :].float()
@@ -92,7 +94,8 @@ def wavfile_to_examples(wav_file, return_tensor=True):
   Returns:
     See waveform_to_examples.
   """
-    wav_data, sr = sf.read(wav_file, dtype='int16')
-    assert wav_data.dtype == np.int16, 'Bad sample type: %r' % wav_data.dtype
-    samples = wav_data / 32768.0  # Convert to [-1.0, +1.0]
+    # wav_data, sr = sf.read(wav_file, dtype='int16')
+    # assert wav_data.dtype == np.int16, 'Bad sample type: %r' % wav_data.dtype
+    # samples = wav_data / 32768.0  # Convert to [-1.0, +1.0]
+    samples, sr = librosa.load(wav_file, sr=48000)
     return waveform_to_examples(samples, sr, return_tensor)
