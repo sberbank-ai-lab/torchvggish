@@ -148,7 +148,7 @@ def _vgg():
 class VGGish(VGG):
     def __init__(self, urls, pretrained=True, preprocess=True, postprocess=True, progress=True):
         super().__init__(make_layers())
-        if os.path.exists('../../data'):
+        if path.exists('../../data'):
             prefix = path.join(dirname, '../../data/weights/')
         else:
             prefix = path.join('../../weights/')
