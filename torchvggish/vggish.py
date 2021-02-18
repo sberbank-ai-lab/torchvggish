@@ -148,9 +148,14 @@ def _vgg():
 class VGGish(VGG):
     def __init__(self, urls, pretrained=True, preprocess=True, postprocess=True, progress=True):
         super().__init__(make_layers())
+        if os.path.exists('../../data'):
+            prefix = path.join(dirname, '../../data/weights/')
+        else:
+            prefix = path.join('../../weights/')
         if pretrained:
             # state_dict = hub.load_state_dict_from_url(urls['vggish'], progress=progress)
-            model_path = path.join(dirname, '../../data/weights/vggish-10086976.pth')
+            # model_path = path.join(dirname, '../../data/weights/vggish-10086976.pth')
+            model_path = path.join(prefix, 'vggish-10086976.pth')
             state_dict = torch.load(model_path)
             super().load_state_dict(state_dict)
 
@@ -160,7 +165,8 @@ class VGGish(VGG):
             self.pproc = Postprocessor()
             if pretrained:
                 # state_dict = hub.load_state_dict_from_url(urls['pca'], progress=progress)
-                pca_path = path.join(dirname, '../../data/weights/vggish_pca_params-970ea276.pth')
+                # pca_path = path.join(dirname, '../../data/weights/vggish_pca_params-970ea276.pth')
+                pca_path = path.join(prefix, 'vggish_pca_params-970ea276.pth')
                 state_dict = torch.load(pca_path)
                 # TODO: Convert the state_dict to torch
                 state_dict[vggish_params.PCA_EIGEN_VECTORS_NAME] = torch.as_tensor(
