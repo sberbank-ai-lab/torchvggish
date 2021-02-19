@@ -151,7 +151,7 @@ class VGGish(VGG):
         if path.exists('../../data'):
             prefix = path.join(dirname, '../../data/weights/')
         else:
-            prefix = path.join('../../weights/')
+            prefix = path.join(dirname, '../../weights/')
         if pretrained:
             # state_dict = hub.load_state_dict_from_url(urls['vggish'], progress=progress)
             # model_path = path.join(dirname, '../../data/weights/vggish-10086976.pth')
